@@ -21,8 +21,8 @@ class ExtractSchemaDataSet(BaseModel):
 all_titles = []
 doi_urls = []
 
-# Loop through page 1 (adjust range as needed)
-for page in range(1, 2):
+# loop through page 1 (adjust range as needed)
+for page in range(1, 3):
     url = f'https://dataverse.harvard.edu/dataverse/harvard?q=&types=datasets&page={page}&sort=dateSort&order=desc'
     data = app.scrape_url(url, {
         'formats': ['json'],
@@ -32,15 +32,14 @@ for page in range(1, 2):
     })
     json_data = data.get("json", {})
     print(f"Page {page} JSON: {json_data}")
-    titles = json_data.get("dataset_titles", [])
+    titles = json_data.get("dataset_titles", [])[:2] # capped at 2 per page
+    dois = json_data.get("doi_urls", [])[:2]
     all_titles.extend(titles)
-    dois = json_data.get("doi_urls", [])
     doi_urls.extend(dois)
 
-
 dataset_info = []
-all_titles = all_titles[:3]
-doi_urls = doi_urls[:3]
+# all_titles = all_titles[:3]
+# doi_urls = doi_urls[:3]
 
 
 for title, doi in zip(all_titles, doi_urls):
