@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+firecrawl-py
+python-dotenv
+beautifulsoup4
+requests
